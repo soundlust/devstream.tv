@@ -85,7 +85,7 @@ if (!String.prototype.format) {
             }
 
             $streams.empty();
-            res.pop().concat(res).forEach(render);
+            Array.prototype.concat.apply([], res).forEach(render);
         });
     }
 
