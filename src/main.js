@@ -49,7 +49,7 @@ if (!String.prototype.format) {
         });
 
         $refresh.on("click", function () {
-            $streams.html("Loading streams...");
+            $streams.html("<li>Loading streams...</li>");
             getStreams(cachedData);
         });
     }
