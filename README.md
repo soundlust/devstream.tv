@@ -1,6 +1,6 @@
 # devstream.tv
 
-[devstream.tv](http://devstream.tv) is a site where streams of working developers are aggregated.
+[devstream.tv](http://devstream.tv) is a site where live video streams of working developers are aggregated.
 
 ## Contributing
 
