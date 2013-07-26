@@ -80,12 +80,21 @@ if (!String.prototype.format) {
                 getTwitchStreams(data["twitch.tv"], cb);
             }
         ], function (err, res) {
+            var flattened;
+
             if (err) {
                 return error(err);
             }
 
             $streams.empty();
-            Array.prototype.concat.apply([], res).forEach(render);
+            flattened = Array.prototype.concat.apply([], res);
+
+            if (flattened.length === 0) {
+                $streams.append($(MENU_ITEM.format("No streams are online :(")));
+                return;
+            }
+
+            flattened.forEach(render);
         });
     }
 
