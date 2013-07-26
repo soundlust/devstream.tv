@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>devstream.tv</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="span8" style="min-height: 500px">
+                    <p class="lead"><a id="title">devstream.tv</a></p>
+                    <div id="stream">
+                        <p>Select a stream on the right</p>
+                    </div>
+                </div>
+                <div class="span4">
+                    <p class="lead">streams</p>
+                    <ul id="streams" class="nav nav-list">
+                        <li>Loading streams...</li>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span2 offset5">
+                    <a href="https://github.com/andzdroid/devstream.tv">Github</a>
+                </div>
+            </div>
+        </div>
+
+        <script id="menu_item" type="text/template">
+<li>{0}</li>
+        </script>
+
+        <script id="twitch_embed" type="text/template">
+<object type="application/x-shockwave-flash" id="live_embed_player_flash" bgcolor="#000000"
+    height="{0}" 
+    width="{1}" 
+    data="http://www.twitch.tv/widgets/live_embed_player.swf?channel={2}">
+<param  name="allowFullScreen" value="true" />
+<param  name="allowScriptAccess" value="always" />
+<param  name="allowNetworking" value="all" />
+<param  name="movie" value="http://www.twitch.tv/widgets/live_embed_player.swf" />
+<param  name="flashvars" value="hostname=www.twitch.tv&channel={2}&auto_play=true&start_volume=25" />
+</object>
+        </script>
+
+        <script id="twitch_chat" type="text/template">
+<iframe frameborder="0" scrolling="no" id="chat_embed" 
+    src="http://twitch.tv/chat/embed?channel={2}&amp;popout_chat=true" 
+    height="{0}" 
+    width="{1}">
+</iframe>
+        </script>
+
+        <script src="lib/jquery-1.10.2.min.js"></script>
+        <script src="lib/twitch.min.js"></script>
+        <script src="lib/async.js"></script>
+        <script src="src/main.js"></script>
+    </body>
+</html>
