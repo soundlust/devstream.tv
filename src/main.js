@@ -23,7 +23,10 @@ if (!String.prototype.format) {
 
         $stream = $("#stream"),
         $streams = $("#streams"),
-        $title = $("#title");
+        $title = $("#title"),
+        $refresh = $("#refresh"),
+
+        cachedData;
 
     /*
     EMBED_WIDTH = 400;
@@ -41,7 +44,13 @@ if (!String.prototype.format) {
                 return error(err);
             }
 
-            getStreams(res[1]);
+            cachedData = res[1];
+            getStreams(cachedData);
+        });
+
+        $refresh.on("click", function () {
+            $streams.html("Loading streams...");
+            getStreams(cachedData);
         });
     }
 
