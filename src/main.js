@@ -14,8 +14,8 @@ if (!String.prototype.format) {
 
     var EMBED_WIDTH = $("#stream").width(),
         EMBED_HEIGHT = EMBED_WIDTH / 16 * 9,
-        CHAT_WIDTH = EMBED_WIDTH - 50,
-        CHAT_HEIGHT = 350,
+        CHAT_WIDTH = EMBED_WIDTH,
+        CHAT_HEIGHT = 335,
 
         MENU_ITEM = $("#menu_item").html(),
         TWITCH_EMBED = $("#twitch_embed").html(),
