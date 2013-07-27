@@ -28,12 +28,6 @@ if (!String.prototype.format) {
 
         cachedData;
 
-    /*
-    EMBED_WIDTH = 400;
-    EMBED_HEIGHT = 300;
-    CHAT_WIDTH = 350;
-    CHAT_HEIGHT = 300;
-    */
 
     function init() {
         async.parallel([
@@ -44,13 +38,11 @@ if (!String.prototype.format) {
                 return error(err);
             }
 
-            cachedData = res[1];
-            getStreams(cachedData);
+            getStreams(res[1]);
         });
 
         $refresh.on("click", function () {
-            $streams.html("<li>Loading streams...</li>");
-            getStreams(cachedData);
+            getStreams();
         });
     }
 
@@ -73,8 +65,31 @@ if (!String.prototype.format) {
 
 
 
+    function sortByViewers(a, b) {
+        return a.views - b.views;
+    }
 
     function getStreams(data) {
+        var count = 0,
+            key;
+
+        //either cache data or load data from cache
+        if (data === undefined) {
+            data = cachedData;
+        } else {
+            cachedData = data;
+        }
+
+        //count total streams
+        for (key in data) {
+            if (data.hasOwnProperty(key)) {
+                count += data[key].length;
+            }
+        }
+
+        $streams.html("<li>Checking {0} streams...</li>".format(count));
+
+        //check streams on each streaming service
         async.parallel([
             function (cb) {
                 getTwitchStreams(data["twitch.tv"], cb);
@@ -90,10 +105,11 @@ if (!String.prototype.format) {
             flattened = Array.prototype.concat.apply([], res);
 
             if (flattened.length === 0) {
-                $streams.append($(MENU_ITEM.format("No streams are online :(")));
+                $streams.html("<li>No streams are online :(</li>");
                 return;
             }
 
+            flattened.sort(sortByViewers);
             flattened.forEach(render);
         });
     }
@@ -107,8 +123,7 @@ if (!String.prototype.format) {
                 "embeddable": true
             }
         }, function (err, res) {
-            var i,
-                data;
+            var data;
 
             if (err) {
                 return cb(err);
@@ -119,15 +134,16 @@ if (!String.prototype.format) {
             }
 
             data = [];
-            for (i = 0; i < res.streams.length; ++i) {
+            res.streams.forEach(function (val) {
                 data.push({
-                    "title": res.streams[i].channel.status,
-                    "name": res.streams[i].channel.name,
-                    "embed": TWITCH_EMBED.format(EMBED_WIDTH, EMBED_HEIGHT, res.streams[i].channel.name),
-                    "chat": TWITCH_CHAT.format(CHAT_WIDTH, CHAT_HEIGHT, res.streams[i].channel.name),
-                    "url": res.streams[i].channel.url
+                    "title": val.channel.status,
+                    "name": val.channel.name,
+                    "embed": TWITCH_EMBED.format(EMBED_WIDTH, EMBED_HEIGHT, val.channel.name),
+                    "chat": TWITCH_CHAT.format(CHAT_WIDTH, CHAT_HEIGHT, val.channel.name),
+                    "url": val.channel.url,
+                    "viewers": val.viewers
                 });
-            }
+            });
 
             cb(null, data);
         });
@@ -137,7 +153,7 @@ if (!String.prototype.format) {
     function render(val) {
         var el;
 
-        el = $(MENU_ITEM.format(val.name));
+        el = $(MENU_ITEM.format(val.name, val.viewers));
         el.on("click", function () {
             $title.text(val.title || val.name);
             $title.attr("href", val.url);
