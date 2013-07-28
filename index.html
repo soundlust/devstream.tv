@@ -4,24 +4,36 @@
     <title>devstream.tv</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
 
-<a href="https://github.com/andzdroid/devstream.tv"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+<a href="https://github.com/andzdroid/devstream.tv"><img class="ribbon" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">devstreams.tv</a>
+    </div>
+  </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="span8" style="min-height: 500px">
-            <p class="lead"><a id="title">devstream.tv</a></p>
-            <div id="stream">
+            <div id="stream" class="well">
                 <p>Live video streams of people who may or may not be developing games!</p>
                 <p>Select a stream on the right</p>
             </div>
         </div>
         <div class="span4">
-            <p class="lead">online streams (<a id="refresh">refresh</a>)</p>
-            <ul id="streams" class="nav nav-list">
-                <li>Loading streams...</li>
-            </ul>
+<div class="well" style="max-width: 340px; padding: 8px 0;">
+              <ul class="nav nav-list">
+                <li class="nav-header streams_header">Online streams <a style="display:inline;" class="pull-right"id="refresh"><i class="icon-repeat"></i></a></li>
+                <div id="streams"></div>
+                <li class="divider"></li>
+                <li><a target="_blank" href="https://github.com/andzdroid/devstream.tv">Add more streams!</a></li>
+              </ul>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -37,7 +49,7 @@
 </div>
 
 <script id="menu_item" type="text/template">
-<li><a>{0} ({1} viewers)</a></li>
+<li><a href="#">{0} ({1} viewers)</a></li>
 </script>
 
 <script id="twitch_embed" type="text/template">
