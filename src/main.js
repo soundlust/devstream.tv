@@ -155,7 +155,7 @@ if (!String.prototype.format) {
 
         el = $(MENU_ITEM.format(val.name, val.viewers));
         el.on("click", function () {
-            $title.text(val.title || val.name);
+            $title.text("{0} - {1}".format(val.name, val.title));
             $title.attr("href", val.url);
             $stream.html(val.embed);
             $stream.append(val.chat);
