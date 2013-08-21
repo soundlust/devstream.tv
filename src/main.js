@@ -141,7 +141,8 @@ if (!String.prototype.format) {
                     "embed": TWITCH_EMBED.format(EMBED_WIDTH, EMBED_HEIGHT, val.channel.name),
                     "chat": TWITCH_CHAT.format(CHAT_WIDTH, CHAT_HEIGHT, val.channel.name),
                     "url": val.channel.url,
-                    "viewers": val.viewers
+                    "viewers": val.viewers,
+                    "preview": val.preview
                 });
             });
 
@@ -154,12 +155,22 @@ if (!String.prototype.format) {
         var el;
 
         el = $(MENU_ITEM.format(val.name, val.viewers));
+
         el.on("click", function () {
             $title.text("{0} - {1}".format(val.name, val.title));
             $title.attr("href", val.url);
             $stream.html(val.embed);
             $stream.append(val.chat);
         });
+
+        el.popover({
+            "title": val.title,
+            "placement": "left",
+            "html": true,
+            "content": "<img src=\"" + val.preview.medium + "\" />",
+            "trigger": "hover"
+        });
+
         $streams.append(el);
     }
 
