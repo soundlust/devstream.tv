@@ -1,4 +1,4 @@
-/* global Twitch:true, $:true, async:true */
+/* global Twitch:true, $:true, async:true, NProgress:true */
 
 if (!String.prototype.format) {
     String.prototype.format = function() {
@@ -30,18 +30,24 @@ if (!String.prototype.format) {
 
 
     function init() {
+        NProgress.start();
+
         async.parallel([
             initTwitch,
             initData
         ], function (err, res) {
             if (err) {
+                NProgress.done();
                 return error(err);
             }
+
+            NProgress.inc();
 
             getStreams(res[1]);
         });
 
         $refresh.on("click", function () {
+            NProgress.start();
             getStreams();
         });
     }
@@ -52,12 +58,16 @@ if (!String.prototype.format) {
                 return cb(err);
             }
 
+            NProgress.inc();
+
             cb(null, res);
         });
     }
 
     function initData(cb) {
         $.getJSON("data/streams.json", function (data) {
+            NProgress.inc();
+
             cb(null, data);
         });
     }
@@ -93,11 +103,15 @@ if (!String.prototype.format) {
         async.parallel([
             function (cb) {
                 getTwitchStreams(data["twitch.tv"], cb);
+                NProgress.inc();
             }
         ], function (err, res) {
             var flattened;
 
+            NProgress.inc();
+
             if (err) {
+                NProgress.done();
                 return error(err);
             }
 
@@ -106,11 +120,14 @@ if (!String.prototype.format) {
 
             if (flattened.length === 0) {
                 $streams.html("<li>No streams are online :(</li>");
+                NProgress.done();
                 return;
             }
 
             flattened.sort(sortByViewers);
             flattened.forEach(render);
+
+            NProgress.done();
         });
     }
 
